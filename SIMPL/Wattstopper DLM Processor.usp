@@ -1,0 +1,95 @@
+#SYMBOL_NAME "Wattstopper DLM Processor"
+
+#INCLUDEPATH "C:\\Users\\mathew.klucznyk\\OneDrive - Global USS\\Crestron Modules\\Mat\\SIMPLSharp Projects\\WattstopperDLM\\WattstopperDLM\\WattstopperDLM\\bin\\Debug"
+#USER_SIMPLSHARP_LIBRARY "WattstopperDLM"   
+
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+Digital_Input Initialize;
+Analog_Input _skip_, RecallScene;
+Buffer_Input _skiP_, _skip_, Response[1000];
+
+Digital_Output IsCommunicating;
+Analog_Output _skip_, CurrentScene;
+String_Output _skip_, SystemVersion, Command;
+
+Integer_Parameter _skip_, _skip_, _skip_, _skip_, _skip_, _skip_, Debug;
+
+Push Initialize
+{
+	Processor.Initialize();
+}
+
+Threadsafe Change RecallScene
+{
+	integer x;
+
+	while(x != RecallScene)
+	{  
+		x = RecallScene;
+		
+		Processor.RecallScene(x);
+	}
+}
+
+Callback GatherEventHandler RxGatherHandler(GatherEventArgs e)
+{
+	try
+	{
+		if(e.Results = 0)
+		{
+			Processor.DataReceived(RemoveByLength(len(e.RxString) - 2, e.RxString));			
+		}
+		else if(e.Results = -1)
+		{
+		}
+		
+		ReArmGatherAsync(e.Input);
+	}
+	catch
+	{
+		GenerateUserError("Exception thrown in Wattstopper DLM Processor: %s", GetExceptionMessage());
+		ReArmGatherAsync(e.Input);
+	}
+}
+
+Callback Function NewIsCommunicating(integer state)
+{
+	IsCommunicating = state;
+}
+
+Callback Function NewSystemVersion(string sysVer)
+{
+	SystemVersion = sysVer;
+}
+
+Callback Function NewSendingData(string data)
+{
+	Command = data + "\n";
+}
+
+Callback Function NewSceneChange(integer sceneId)
+{
+	CurrentScene = sceneId;
+}
+
+Function Main()
+{       
+	WaitForInitializationComplete();
+	
+	Processor.Debug = Debug;
+
+	RegisterDelegate(Processor, onIsCommunicating, NewIsCommunicating);
+	RegisterDelegate(Processor, onVersion, NewSystemVersion);
+	RegisterDelegate(Processor, onSendingData, NewSendingData);
+	RegisterDelegate(Processor, onSceneChange, NewSceneChange);
+	
+	if(GatherAsync("\n", Response, RxGatherHandler) < 0)
+	{
+		GenerateUserError("Exception thrown in Wattstopper DLM Proccesor: GatherAsync failed with \x22Problem with one of the parameters \x22");
+
+	} 
+}
+

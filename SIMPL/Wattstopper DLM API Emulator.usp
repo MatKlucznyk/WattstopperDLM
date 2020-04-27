@@ -1,0 +1,55 @@
+#SYMBOL_NAME "Wattstopper DLM API Emulator"
+
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+Buffer_Input FromDevice[1000];
+
+String_Output ToDevice;
+
+Callback GatherEventHandler RxGatherHandler(GatherEventArgs e)
+{
+	try
+	{
+		if(e.Results = 0)
+		{
+			if(find("VERSION", e.RxString))
+			{
+				ToDevice = "R: VERSION 2.3\n";
+			}
+			else if(find("STATUS", e.RxString) = 0)
+			{
+				if(find("LOAD", e.RxString))
+				{
+					ToDevice = "S:" + e.RxString;
+				}
+				else if(find("SCENE", e.RxString))
+				{
+					ToDevice = "S:" + e.RxString;
+				}
+			}			
+		}
+		else if(e.Results = -1)
+		{
+		}
+		
+		ReArmGatherAsync(e.Input); 
+	}
+	catch
+	{
+		GenerateUserError("Exception thrown in Wattstopper DLM API Emulator: %s", GetExceptionMessage());
+		ReArmGatherAsync(e.Input);
+	}
+}
+
+Function Main()
+{       
+	WaitForInitializationComplete();
+	
+	if(GatherAsync("\n", FromDevice, RxGatherHandler) < 0)
+	{
+		GenerateUserError("Exception thrown in Wattstopper DLM API Emulator: GatherAsync failed with \x22Problem with one of the parameters \x22");
+
+	} 
+}

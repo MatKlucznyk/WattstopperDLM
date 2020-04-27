@@ -1,0 +1,65 @@
+#SYMBOL_NAME "Wattstopper DLM Load"
+ 
+#INCLUDEPATH "C:\\Users\\mathew.klucznyk\\OneDrive - Global USS\\Crestron Modules\\Mat\\SIMPLSharp Projects\\WattstopperDLM\\WattstopperDLM\\WattstopperDLM\\bin\\Debug"
+#USER_SIMPLSHARP_LIBRARY "WattstopperDLM"   
+
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+Digital_Input _skip_, LoadOn, LoadOff;
+Analog_Input LoadLevel;           
+
+Digital_Output LoadIsRegistered, LoadIsOn;
+Analog_output _skip_, LoadLevelValue;
+
+String_Parameter _skip_, _skip_, _skip_, _skip_, LoadID[100], InterfaceID[100];
+
+Load _load;
+
+Push LoadOn
+{
+	_load.SetLevel(65535);
+}
+
+Push LoadOff
+{
+	_load.SetLevel(0);
+}
+
+Threadsafe Change LoadLevel
+{
+	integer x;
+	
+	Seed(LoadLevelValue);
+	
+	x = Rnd();
+	
+	while(x != LoadLevel)
+	{
+		x = LoadLevel;
+		
+		_load.SetLevel(x);
+	}
+}
+
+Callback Function NewIsRegistered(integer status)
+{
+	LoadIsRegistered = status;
+}
+
+Callback Function NewLevelChange(integer level)
+{
+	LoadLevelValue = level;
+}
+
+Function Main()
+{
+	WaitForInitializationComplete();
+	  
+	_load.ProcID = InterfaceID;  
+	_load.ID = LoadID;	
+
+	RegisterDelegate(_load, onIsRegistered, NewIsRegistered);
+	RegisterDelegate(_load, onLevelChange, NewLevelChange);
+}

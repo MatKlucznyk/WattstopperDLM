@@ -1,0 +1,12 @@
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\bin\Debug\WattstopperDLM.dll
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\bin\Debug\WattstopperDLM.pdb
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\bin\Debug\SimplSharpCustomAttributesInterface.dll
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\bin\Debug\SimplSharpHelperInterface.dll
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\obj\Debug\WattstopperDLM.dll
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\obj\Debug\WattstopperDLM.pdb
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\WattstopperDLM\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\WattstopperDLM\obj\Debug\WattstopperDLM.dll
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\WattstopperDLM\bin\Debug\WattstopperDLM.dll
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\WattstopperDLM\bin\Debug\WattstopperDLM.pdb
+C:\Users\mathew.klucznyk\OneDrive - Global USS\Crestron Modules\Mat\SIMPLSharp Projects\WattstopperDLM\WattstopperDLM\WattstopperDLM\obj\Debug\WattstopperDLM.pdb
