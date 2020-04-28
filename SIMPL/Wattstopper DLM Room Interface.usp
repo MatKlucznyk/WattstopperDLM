@@ -82,13 +82,13 @@ Function Main()
 {       
 	WaitForInitializationComplete();
 	
-	_interface.ID = InterfaceID;
-	_interface.Debug = Debug;
-
 	RegisterDelegate(_interface, onIsCommunicating, NewIsCommunicating);
 	RegisterDelegate(_interface, onVersion, NewSystemVersion);
 	RegisterDelegate(_interface, onSendingData, NewSendingData);
-	RegisterDelegate(_interface, onSceneChange, NewSceneChange);
+	RegisterDelegate(_interface, onSceneChange, NewSceneChange); 
+	
+	_interface.ID = InterfaceID;
+	_interface.Debug = Debug;
 	
 	if(GatherAsync("\n", Response, RxGatherHandler) < 0)
 	{

@@ -55,11 +55,11 @@ Callback Function NewLevelChange(integer level)
 
 Function Main()
 {
-	WaitForInitializationComplete();
-	  
-	_load.ProcID = InterfaceID;  
-	_load.ID = LoadID;	
-
+	WaitForInitializationComplete(); 
+	
 	RegisterDelegate(_load, onIsRegistered, NewIsRegistered);
 	RegisterDelegate(_load, onLevelChange, NewLevelChange);
+
+	_load.ProcID = InterfaceID;  
+	_load.ID = LoadID;	
 }
