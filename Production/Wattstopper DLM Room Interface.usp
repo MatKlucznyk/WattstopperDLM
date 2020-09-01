@@ -1,0 +1,99 @@
+#SYMBOL_NAME "Wattstopper DLM Room Interface"
+
+//#INCLUDEPATH "C:\\Users\\mathew.klucznyk\\OneDrive - Global USS\\Crestron Modules\\Mat\\SIMPLSharp Projects\\WattstopperDLM\\WattstopperDLM\\WattstopperDLM\\bin\\Debug"
+#USER_SIMPLSHARP_LIBRARY "WattstopperDLM"   
+
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE 
+
+Digital_Input Initialize;
+Analog_Input RecallScene;
+Buffer_Input _skiP_, _skip_, Response[1000];
+
+Digital_Output IsCommunicating;
+Analog_Output CurrentScene;
+String_Output _skip_, SystemVersion, Command;
+
+String_Parameter  _skip_, _skip_, _skip_, _skip_, _skip_, InterfaceID[100];
+Integer_Parameter Debug;
+
+RoomInterface _interface;
+
+Push Initialize
+{
+	_interface.Initialize();
+}
+
+Threadsafe Change RecallScene
+{
+	integer x;
+
+	while(x != RecallScene)
+	{  
+		x = RecallScene;
+		
+		_interface.RecallScene(x);
+	}
+}
+
+Callback GatherEventHandler RxGatherHandler(GatherEventArgs e)
+{
+	try
+	{
+		if(e.Results = 0)
+		{
+			_interface.DataReceived(RemoveByLength(len(e.RxString) - 2, e.RxString));			
+		}
+		else if(e.Results = -1)
+		{
+		}
+		
+		ReArmGatherAsync(e.Input);
+	}
+	catch
+	{
+		GenerateUserError("Exception thrown in Wattstopper DLM _interface: %s", GetExceptionMessage());
+		ReArmGatherAsync(e.Input);
+	}
+}
+
+Callback Function NewIsCommunicating(integer state)
+{
+	IsCommunicating = state;
+}
+
+Callback Function NewSystemVersion(string sysVer)
+{
+	SystemVersion = sysVer;
+}
+
+Callback Function NewSendingData(string data)
+{
+	Command = data + "\n";
+}
+
+Callback Function NewSceneChange(integer sceneId)
+{
+	CurrentScene = sceneId;
+}
+
+Function Main()
+{       
+	WaitForInitializationComplete();
+	
+	RegisterDelegate(_interface, onIsCommunicating, NewIsCommunicating);
+	RegisterDelegate(_interface, onVersion, NewSystemVersion);
+	RegisterDelegate(_interface, onSendingData, NewSendingData);
+	RegisterDelegate(_interface, onSceneChange, NewSceneChange); 
+	
+	_interface.ID = InterfaceID;
+	_interface.Debug = Debug;
+	
+	if(GatherAsync("\n", Response, RxGatherHandler) < 0)
+	{
+		GenerateUserError("Exception thrown in Wattstopper DLM Proccesor: GatherAsync failed with \x22Problem with one of the parameters\x22");
+
+	} 
+}
+

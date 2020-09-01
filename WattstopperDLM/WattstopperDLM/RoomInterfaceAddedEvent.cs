@@ -6,7 +6,7 @@ using Crestron.SimplSharp;
 
 namespace WattstopperDLM
 {
-    internal class RoomInterfaceAdded
+    /*internal class RoomInterfaceAdded
     {
         private event EventHandler<RoomInterfaceAddedEventArgs> onNewEvent = delegate { };
 
@@ -28,9 +28,9 @@ namespace WattstopperDLM
             }
         }
 
-        internal void SendData(RoomInterfaceAddedEventArgs e)
+        internal void SendData(RoomInterfaceAddedinEventArgs e)
         {
             onNewEvent(null, e);
         }
-    }
+    }*/
 }

@@ -14,11 +14,20 @@ namespace WattstopperDLM
 
         internal static void AddRoomInterface(RoomInterface roomInterface)
         {
-            if (!RoomInterfaces.ContainsKey(roomInterface.ID))
+            try
             {
-                RoomInterfaces.Add(roomInterface.ID, roomInterface);
+                lock (RoomInterfaces)
+                {
+                    if (!RoomInterfaces.ContainsKey(roomInterface.ID))
+                    {
+                        RoomInterfaces.Add(roomInterface.ID, roomInterface);
 
-                OnRoomInterfaceAdded(new RoomInterfaceAddedEventArgs(roomInterface.ID));
+                        OnRoomInterfaceAdded(new RoomInterfaceAddedEventArgs(roomInterface.ID));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
             }
         }
 

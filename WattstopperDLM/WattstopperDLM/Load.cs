@@ -36,7 +36,7 @@ namespace WattstopperDLM
 
         public bool Equals(Load other)
         {
-            return this._id == other.ID;
+            return this._id == other._id && this._procId == other._procId;
         }
 
         internal void Initialize()
