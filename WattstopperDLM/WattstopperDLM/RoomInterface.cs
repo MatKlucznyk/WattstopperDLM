@@ -83,10 +83,10 @@ namespace WattstopperDLM
 
     public void Initialize()
     {
-        Processor.AddRoomInterface(this);
         _receivedData = new CrestronQueue<string>();
         _receivedDataDequeue = new CTimer(DataReceivedDequeue, null, 0, 10);
         _waitForConnection = new CTimer(WaitForConnection, null, 0, 5000);
+        Processor.AddRoomInterface(this);
     }
 
     public void RecallScene(ushort scene)
